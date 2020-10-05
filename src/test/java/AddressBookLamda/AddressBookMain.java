@@ -6,6 +6,7 @@ package AddressBookLamda;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
+import java.util.stream.Collectors;
 @FunctionalInterface
 interface demo
 {
@@ -76,6 +77,21 @@ public class AddressBookMain
     else
     	return false;
     };
+    @Test
+    public void sort_by_city()
+    {
+    	Address_Book=(ArrayList<Contact>) Address_Book.stream().sorted(Comparator.comparing(Contact::getCity)).collect(Collectors.toList());
+    }
+    @Test
+    public void sort_by_state()
+    {
+    	Address_Book=(ArrayList<Contact>) Address_Book.stream().sorted(Comparator.comparing(Contact::getState)).collect(Collectors.toList());
+    }
+    @Test
+    public void sort_by_zip)
+    {
+    	Address_Book=(ArrayList<Contact>) Address_Book.stream().sorted(Comparator.comparing(Contact::getZip)).collect(Collectors.toList());
+    }
     public static void main(String args[])
     {
         System.out.println("Welcome to the Address Book problem in Address Book Main class");
@@ -89,7 +105,10 @@ public class AddressBookMain
             System.out.println(" Press 5 to search and display by City");
             System.out.println(" Press 6 to search and display by State");
             System.out.println(" Press 7 to display all contact detail");
-            System.out.println(" Press 8 to exit");
+            System.out.println(" Press 8 to sort all contact detail by city");
+            System.out.println(" Press 9 to sort all contact detail by state");
+            System.out.println(" Press 10 to sort all contact detail by zip");
+            System.out.println(" Press 11 to exit");
             int n=sc.nextInt();sc.nextLine();
             switch(n) {
                 case 1:
@@ -128,6 +147,15 @@ public class AddressBookMain
                 	dict.contact_details();
                 	break;
                 case 8:
+                	obj.sort_by_city();
+                	break;
+                case 9:
+                	obj.sort_by_state();
+                	break;
+                case 10:
+                	obj.sort_by_zip();
+                	break;
+                case 11:
                     System.exit(0);
                 default:
                     System.out.println("Enter again!");

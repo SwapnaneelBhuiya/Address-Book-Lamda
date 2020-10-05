@@ -3,11 +3,20 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.Map.Entry;
 public class Dictionary extends AddressBookMain
 {
-      public static HashMap<String, ArrayList<Contact>> dict=new HashMap<String, ArrayList<Contact>>();
-	  
+      public static HashMap<String, ArrayList<Contact>> dict;
+	    @Before
+	    void initialize()
+	    {
+	    	dict=new HashMap<String, ArrayList<Contact>>();
+	    }
+        @Test
         public void search_by_city(String city)
         {
 
@@ -22,6 +31,7 @@ public class Dictionary extends AddressBookMain
             }
             System.out.println("Number of contact person by state= "+con);
         }
+        @Test
         public void search_by_state(String state)
         {
 
@@ -36,6 +46,7 @@ public class Dictionary extends AddressBookMain
             }
             System.out.println("Number of contact person by state= "+con);
         }
+        @Test
         public void contact_details()
         {
             System.out.println("Contact Namewise Details");
@@ -56,6 +67,7 @@ public class Dictionary extends AddressBookMain
                 }
             }
         }
+        @Test
         public void add_dict(ArrayList<Contact> ar)
         {
             Scanner sc=new Scanner(System.in);
