@@ -1,6 +1,7 @@
 package AddressBookLamda;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.Map.Entry;
 public class Dictionary extends AddressBookMain
@@ -45,14 +46,13 @@ public class Dictionary extends AddressBookMain
                 System.out.println("The name is: "+names);
                 for(Contact i:ar)
                 {
-                    System.out.println(i.getFirst_name());
-                    System.out.println(i.getLast_name());
-                    System.out.println(i.getAddress());
-                    System.out.println(i.getCity());
-                    System.out.println(i.getState());
-                    System.out.println(i.getZip());
-                    System.out.println(i.getPhone_number());
-                    System.out.println(i.getEmail());
+                	i.toString();
+					/*
+					 * System.out.println(i.getFirst_name()); System.out.println(i.getLast_name());
+					 * System.out.println(i.getAddress()); System.out.println(i.getCity());
+					 * System.out.println(i.getState()); System.out.println(i.getZip());
+					 * System.out.println(i.getPhone_number()); System.out.println(i.getEmail());
+					 */
                 }
             }
         }
@@ -60,6 +60,12 @@ public class Dictionary extends AddressBookMain
         {
             Scanner sc=new Scanner(System.in);
             System.out.println("Enter the name of the Address book");
+            Collections.sort(ar,new Comparator<Contact>() {
+            	public int compare(Contact ob1, Contact ob2) {
+            		return ob1.getFirst_name().compareTo(ob2.getFirst_name());
+            	}
+            });
+            //ArrayList<Contact> sorted_Ar=(ArrayList<Contact>) ar.stream().sorted(Comparator.comparing(Contact::getFirst_name)).collect(Collectors.toList());
             dict.put(sc.nextLine(),ar);
         }
 }

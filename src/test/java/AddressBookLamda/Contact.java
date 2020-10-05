@@ -73,7 +73,11 @@ public class Contact {
     public  void setEmail(String a) {
         email = a;
     }
-
+    @Override
+    public String toString()
+    {
+    	return first_name+" "+last_name+" address: "+address+" city "+city+" state "+state+"zip"+zip+"phone number"+phone_number+"email"+email;
+    }
     public Contact(String a, String b, String c, String d, String e, String f, String g, String h) {
         first_name = a;
         last_name = b;
