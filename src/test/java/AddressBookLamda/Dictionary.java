@@ -18,9 +18,9 @@ public class Dictionary extends AddressBookMain
             {
 				ArrayList<Contact> ar=ee.getValue();
                 Stream<Contact> res=ar.stream().filter(n-> n.getCity().equals(city)).peek(n->System.out.println(n.getFirst_name()+" "+n.getLast_name()));
-                //con+=(int) ar.stream().filter(n-> n.getState().equals(city)).count();
+                con+=(int) ar.stream().filter(n-> n.getState().equals(city)).count();
             }
-            //System.out.println("Number of contact person by state= "+con);
+            System.out.println("Number of contact person by state= "+con);
         }
         public void search_by_state(String state)
         {
@@ -32,9 +32,9 @@ public class Dictionary extends AddressBookMain
             {
 				ArrayList<Contact> ar=ee.getValue();
                 Stream<Contact> res=ar.stream().filter(n-> n.getState().equals(state)).peek(n->System.out.println(n.getFirst_name()+" "+n.getLast_name()));
-                //con+=(int) ar.stream().filter(n-> n.getState().equals(state)).count();
+                con+=(int) ar.stream().filter(n-> n.getState().equals(state)).count();
             }
-            //System.out.println("Number of contact person by state= "+con);
+            System.out.println("Number of contact person by state= "+con);
         }
         public void contact_details()
         {
