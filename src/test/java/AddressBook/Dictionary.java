@@ -19,7 +19,7 @@ public class Dictionary extends AddressBookMain
           //Predicate<String> isState= n -> n.equals(Contact.getState());
           for(Entry<String, ArrayList<Contact>> ee:dict.entrySet())
           {
-				ArrayList<Contact> ar=ee.getValue();
+        	  ArrayList<Contact> ar=ee.getValue();
               Stream<Contact> res=ar.stream().filter(n-> n.getCity().equals(city)).peek(n->System.out.println(n.getFirst_name()+" "+n.getLast_name()));
               con+=(int) ar.stream().filter(n-> n.getState().equals(city)).count();
           }
@@ -96,15 +96,15 @@ public class Dictionary extends AddressBookMain
             //ArrayList<Contact> sorted_Ar=(ArrayList<Contact>) ar.stream().sorted(Comparator.comparing(Contact::getFirst_name)).collect(Collectors.toList());
             dict.put(sc.nextLine(),ar);
         }
-//	  	public void writeIntoFile() throws IOException
-//	  	{
-//	  		for(Entry<String, ArrayList<Contact>> ee:dict.entrySet())
-//            {
-//                ArrayList<Contact> ar=ee.getValue();
-//                ob.writeInFile(ar);
-//            }
-//	  	}
-//	  	public void readFromFile() throws IOException
+	  	public void writeIntoFile() throws IOException
+	  	{
+	  		for(Entry<String, ArrayList<Contact>> ee:dict.entrySet())
+            {
+                ArrayList<Contact> ar=ee.getValue();
+                ob.writeInFile(ar);
+            }
+	  	}
+//	  	public  void readFromFile() throws IOException
 //	  	{
 //	  		ob.readFromFile();
 //	  	}
