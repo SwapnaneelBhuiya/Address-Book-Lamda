@@ -1,15 +1,21 @@
 package AddressBook;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import org.junit.Test;
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 @FunctionalInterface
 interface demo
 {
@@ -20,6 +26,7 @@ public class AddressBookMain
     public static ArrayList<Contact> Address_Book;
     public static Dictionary dict=new Dictionary();
     public static Scanner sc=new Scanner(System.in);
+    public static final String csvfilepath="/AddressBook/src/test/java/Address-Book.csv";
     public AddressBookMain()
     {
         Address_Book=new ArrayList<Contact>();
@@ -36,12 +43,20 @@ public class AddressBookMain
     }
     public void writeInFile(ArrayList<Contact> ar) throws IOException
     {
-    	Path newFilePath = Paths.get("AddressBook.txt");
-        Files.createFile(newFilePath);
+    	Path newFilePath = Paths.get("/AddressBook/src/test/java/AddressBook.txt");
+    	if(Files.notExists(newFilePath));
+        	Files.createFile(newFilePath);
     	StringBuffer empbuffer=new StringBuffer();
     	ar.forEach(address-> {String adr=address.toString().concat("\n");
     	empbuffer.append(adr);});
-    	Files.write(Paths.get("AddressBook.txt"), empbuffer.toString().getBytes());
+    	Files.write(Paths.get("/AddressBook/src/test/java/AddressBook.txt"), empbuffer.toString().getBytes());
+    	//Writer writer = Files.newBufferedWriter(Paths.get(csvfilepath));
+    	CSVWriter writer = new CSVWriter(new FileWriter(csvfilepath.toString()));
+    	for(Contact ob:ar)
+    	writer.writeNext(new String[] {ob.getFirst_name(),ob.getLast_name(),ob.getAddress(),ob.getCity(),ob.getState(),ob.getZip()
+    			,ob.getPhone_number(),ob.getEmail()
+    	});
+    	writer.close();
     }
     public static ArrayList<Contact> getAddress_Book() {
 		return Address_Book;
@@ -49,10 +64,22 @@ public class AddressBookMain
 	public static void setAddress_Book(ArrayList<Contact> address_Book) {
 		Address_Book = address_Book;
 	}
-	public static void readFromFile() throws IOException
+	public void readFromFile() throws IOException, URISyntaxException
     {
-		List<String> fileLines=Files.readAllLines(Paths.get("AddressBook.txt"));
+		List<String> fileLines=Files.readAllLines(Paths.get("/AddressBook/src/test/java/AddressBook.txt"));
 		fileLines.forEach(System.out::println);
+        Reader reader = Files.newBufferedReader(Paths.get(csvfilepath));
+        CSVReader csvReader = new CSVReader(reader);
+        String[] nextRecord;
+        while ((nextRecord = csvReader.readNext()) != null) {
+            System.out.println("Name : " + nextRecord[0]+ " "+nextRecord[1]);
+            System.out.println("Address : " + nextRecord[2]);
+            System.out.println("City : " + nextRecord[3]);
+            System.out.println("State : " + nextRecord[4]);
+            System.out.println("Zip : " + nextRecord[5]);
+            System.out.println("Phone Number : " + nextRecord[6]]);
+            System.out.println("Email : " + nextRecord[7]]);
+
     }
     public void Add_Contact() throws IOException
     {
@@ -183,7 +210,6 @@ public class AddressBookMain
                 	obj.sort_by_zip();
                 	break;
                 case 11:
-                	readFromFile();
                     System.exit(0);
                 default:
                     System.out.println("Enter again!");

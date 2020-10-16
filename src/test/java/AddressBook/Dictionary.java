@@ -69,9 +69,10 @@ public class Dictionary extends AddressBookMain
 //                }
 //            System.out.println("Number of contact person by state= "+con);
 //        }
-        public void contact_details()
+        public void contact_details() throws IOException
         {
 	  		 System.out.println("Contact Namewise Details");
+	  		 ob.readFromFile();
 	  		  for(Entry<String, ArrayList<Contact>> ee:dict.entrySet())
 	            {
 	                String names=ee.getKey();
@@ -96,16 +97,4 @@ public class Dictionary extends AddressBookMain
             //ArrayList<Contact> sorted_Ar=(ArrayList<Contact>) ar.stream().sorted(Comparator.comparing(Contact::getFirst_name)).collect(Collectors.toList());
             dict.put(sc.nextLine(),ar);
         }
-	  	public void writeIntoFile() throws IOException
-	  	{
-	  		for(Entry<String, ArrayList<Contact>> ee:dict.entrySet())
-            {
-                ArrayList<Contact> ar=ee.getValue();
-                ob.writeInFile(ar);
-            }
-	  	}
-//	  	public  void readFromFile() throws IOException
-//	  	{
-//	  		ob.readFromFile();
-//	  	}
 }
