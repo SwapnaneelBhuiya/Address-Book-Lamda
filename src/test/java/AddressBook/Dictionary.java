@@ -1,11 +1,14 @@
 package AddressBook;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import org.junit.Test;
+
+import com.opencsv.exceptions.CsvValidationException;
 
 public class Dictionary extends AddressBookMain
 {
@@ -69,7 +72,7 @@ public class Dictionary extends AddressBookMain
 //                }
 //            System.out.println("Number of contact person by state= "+con);
 //        }
-        public void contact_details() throws IOException
+        public void contact_details() throws IOException, URISyntaxException, CsvValidationException
         {
 	  		 System.out.println("Contact Namewise Details");
 	  		 ob.readFromFile();

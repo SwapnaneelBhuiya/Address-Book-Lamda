@@ -12,10 +12,16 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.Test;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
 @FunctionalInterface
 interface demo
 {
@@ -26,7 +32,7 @@ public class AddressBookMain
     public static ArrayList<Contact> Address_Book;
     public static Dictionary dict=new Dictionary();
     public static Scanner sc=new Scanner(System.in);
-    public static final String csvfilepath="/AddressBook/src/test/java/Address-Book.csv";
+    public static final String csvfilepath="Address-Book.csv";
     public AddressBookMain()
     {
         Address_Book=new ArrayList<Contact>();
@@ -43,20 +49,37 @@ public class AddressBookMain
     }
     public void writeInFile(ArrayList<Contact> ar) throws IOException
     {
-    	Path newFilePath = Paths.get("/AddressBook/src/test/java/AddressBook.txt");
+    	Path newFilePath = Paths.get("AddressBook.txt");
     	if(Files.notExists(newFilePath));
         	Files.createFile(newFilePath);
     	StringBuffer empbuffer=new StringBuffer();
     	ar.forEach(address-> {String adr=address.toString().concat("\n");
     	empbuffer.append(adr);});
-    	Files.write(Paths.get("/AddressBook/src/test/java/AddressBook.txt"), empbuffer.toString().getBytes());
-    	//Writer writer = Files.newBufferedWriter(Paths.get(csvfilepath));
+    	Files.write(Paths.get("AddressBook.txt"), empbuffer.toString().getBytes());
     	CSVWriter writer = new CSVWriter(new FileWriter(csvfilepath.toString()));
     	for(Contact ob:ar)
     	writer.writeNext(new String[] {ob.getFirst_name(),ob.getLast_name(),ob.getAddress(),ob.getCity(),ob.getState(),ob.getZip()
     			,ob.getPhone_number(),ob.getEmail()
     	});
     	writer.close();
+    	for(Contact i: ar)
+    	{
+    		JSONObject contactDetail = new JSONObject();
+            contactDetail.put("Address", i.getAddress());
+            contactDetail.put("City", i.getCity());
+            contactDetail.put("State", i.getState());
+            contactDetail.put("Zip", i.getZip());
+            contactDetail.put("Phone Number", i.getPhone_number());
+            contactDetail.put("Email", i.getEmail());
+             
+            JSONObject contactObject = new JSONObject(); 
+            contactObject.put(i.getFirst_name()+" "+i.getLast_name(), contactDetail);
+            JSONArray employeeList = new JSONArray();
+            employeeList.add(contactObject);
+            FileWriter file = new FileWriter("AddressBooks.json");
+            file.write(employeeList.toJSONString());
+            file.flush();
+    	}
     }
     public static ArrayList<Contact> getAddress_Book() {
 		return Address_Book;
@@ -64,9 +87,9 @@ public class AddressBookMain
 	public static void setAddress_Book(ArrayList<Contact> address_Book) {
 		Address_Book = address_Book;
 	}
-	public void readFromFile() throws IOException, URISyntaxException
+	public void readFromFile() throws IOException, URISyntaxException, CsvValidationException
     {
-		List<String> fileLines=Files.readAllLines(Paths.get("/AddressBook/src/test/java/AddressBook.txt"));
+		List<String> fileLines=Files.readAllLines(Paths.get("AddressBook.txt"));
 		fileLines.forEach(System.out::println);
         Reader reader = Files.newBufferedReader(Paths.get(csvfilepath));
         CSVReader csvReader = new CSVReader(reader);
@@ -77,9 +100,15 @@ public class AddressBookMain
             System.out.println("City : " + nextRecord[3]);
             System.out.println("State : " + nextRecord[4]);
             System.out.println("Zip : " + nextRecord[5]);
-            System.out.println("Phone Number : " + nextRecord[6]]);
-            System.out.println("Email : " + nextRecord[7]]);
-
+            System.out.println("Phone Number : " + nextRecord[6]);
+            System.out.println("Email : " + nextRecord[7]);
+        }
+        csvReader.close();
+        Gson gson = new Gson();
+        Reader read = Files.newBufferedReader(Paths.get("AddressBooks.json"));
+        List<Contact> users = gson.fromJson(reader, new TypeToken<List<Contact>>() {}.getType());
+        users.forEach(System.out::println);
+        read.close();
     }
     public void Add_Contact() throws IOException
     {
@@ -146,7 +175,7 @@ public class AddressBookMain
         }
         return false;
     }
-    public static void main(String args[]) throws IOException
+    public static void main(String args[]) throws IOException, CsvValidationException, URISyntaxException
     {
         System.out.println("Welcome to the Address Book problem in Address Book Main class");
         AddressBookMain obj=new AddressBookMain();
